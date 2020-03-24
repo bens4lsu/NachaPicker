@@ -8,4 +8,11 @@ public func routes(_ router: Router) throws {
     router.get("hello") { req in
         return "Hello, world!"
     }
+    
+    func todo() {
+        // parse input string into lines
+        let x = "sss"
+        
+        x.components(separatedBy: .newlines)
+    }
 }
