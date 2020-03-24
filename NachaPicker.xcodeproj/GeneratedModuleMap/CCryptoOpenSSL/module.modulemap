@@ -1,0 +1,4 @@
+module CCryptoOpenSSL {
+    umbrella "/Users/ben/Sync/Xcode/projects/NachaPicker/.build/checkouts/crypto/Sources/CCryptoOpenSSL/include"
+    export *
+}
