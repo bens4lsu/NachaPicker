@@ -77,4 +77,28 @@ class FixedLengthField: Codable {
         self.text = newData.text
         return .success
     }
+    
+    func val(from startPosition: Int, to endPosition: Int) -> String? {
+        let range = startPosition...endPosition
+        return String(self.text[range])
+    }
+    
+    func val(from startPosition: Int, to endPosition: Int) -> Double? {
+        let str: String? = self.val(from: startPosition, to: endPosition)
+        
+        guard let string = str, let double = Double(string) else {
+            return nil
+        }
+        return double
+    }
+    
+    func val(from startPosition: Int, to endPosition: Int) -> Int? {
+        let str: String? = self.val(from: startPosition, to: endPosition)
+        
+        guard let string = str, let int = Int(string) else {
+            return nil
+        }
+        return int
+    }
+    
 }

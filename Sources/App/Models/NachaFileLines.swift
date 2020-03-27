@@ -20,7 +20,7 @@ class NachaRecord: FixedLengthField {
             throw Abort(.badRequest, reason: "Parse error on \(string).  Call to NACHA type \(paramType) parser, but first character is \(String(describing: typeFromString)).")
         }
         
-        guard text.lengthOfBytes(using: .ascii) == 94 else {
+        guard string.lengthOfBytes(using: .ascii) == 94 else {
             throw Abort(.badRequest, reason: "Parse error on \(text).  String is not equal to 94 characters.")
         }
         
@@ -75,6 +75,7 @@ class NachaType9: NachaRecord {
     required init(from decoder: Decoder) throws {
         try super.init(from: decoder)
     }
+    
 }
 
 class NachaType5: NachaRecord {
@@ -87,9 +88,15 @@ class NachaType5: NachaRecord {
     required init(from decoder: Decoder) throws {
         try super.init(from: decoder)
     }
+    
 }
 
 class NachaType8: NachaRecord {
+    
+    var aeCount: Int? { return val(from: 4, to: 9) }
+    var hash: Int? { return val(from: 10, to: 19) }
+    var debitAmount: Double? { return val(from: 20, to: 31) }
+    var creditAmount: Double? { return val(from: 32, to: 43) }
     
     init(from string: String) throws {
         let validations = [FieldParseValidation]()
@@ -99,9 +106,23 @@ class NachaType8: NachaRecord {
     required init(from decoder: Decoder) throws {
         try super.init(from: decoder)
     }
+    
 }
 
 class NachaType6: NachaRecord {
+    
+    var uuid = UUID()
+    
+    var aba: String? { return val(from: 3, to: 11) }
+    var accountNumber: String? { return val(from: 12, to: 28) }
+    var amount: Double? { return val(from: 29, to: 38) }
+    var idNumber: String? { return val(from: 39, to: 53 ) }
+    var name: String? { return val(from: 54, to: 75) }
+    var hash: Int? { return val(from: 4, to: 11) }
+    var isDebit: Bool {
+        let type: String? = val(from: 1, to: 2)
+        return type == "27"
+    }
     
     init(from string: String) throws {
         let validations = [FieldParseValidation]()
@@ -111,11 +132,12 @@ class NachaType6: NachaRecord {
     required init(from decoder: Decoder) throws {
         try super.init(from: decoder)
     }
+
 }
 
 class NachaType7: NachaRecord {
     
-    var idxLinkedType6: Int?
+    var hash: Int? { return val(from: 4, to: 11) }
     
     init(from string: String) throws {
         let validations = [FieldParseValidation]()
