@@ -7,9 +7,9 @@
 
 import Foundation
 
-enum Justification {
-    case left
-    case right
+enum Justification: String, Codable {
+    case left = "left"
+    case right = "right"
 }
 
 enum FillResult {
@@ -17,7 +17,7 @@ enum FillResult {
     case error(reason: String)
 }
 
-class FixedLengthField {
+class FixedLengthField: Codable {
     var length: Int
     var text: String
     var padding: Character

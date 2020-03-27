@@ -7,15 +7,15 @@
 
 import Foundation
 
-class NachaDetails {
-    var type6: NachaType6?
+class NachaDetails: Codable {
+    var type6: NachaType6
     var type7s = [NachaType7]()
     
+    init(_ type6: NachaType6) {
+        self.type6 = type6
+    }
+    
     func out() -> String {
-        guard let type6 = self.type6 else {
-            return ""
-        }
-        
         var outString = type6.text + "\n"
         for type7 in type7s {
             outString += type7.text + "\n"
@@ -24,13 +24,17 @@ class NachaDetails {
     }
 }
 
-class NachaGroup {
-    var type5: NachaType5?
+class NachaGroup: Codable {
+    var type5: NachaType5
     var details = [NachaDetails]()
     var type8: NachaType8?
     
+    init(_ type5: NachaType5) {
+        self.type5 = type5
+    }
+    
     func out() -> String {
-        guard let type5 = self.type5, let type8 = self.type8 else {
+        guard let type8 = self.type8 else {
             return ""
         }
         var outString = type5.text + "\n"
@@ -42,10 +46,14 @@ class NachaGroup {
     }
 }
 
-class NachaFile {
-    var type1: NachaType1?
+class NachaFile: Codable {
+    var type1: NachaType1
     var groups = [NachaGroup]()
     var type9: NachaType9?
+    
+    init (_ type1: NachaType1) {
+        self.type1 = type1
+    }
     
     func padding() -> [NachaFilePadding] {
         let count = groups.count + 2
@@ -58,7 +66,7 @@ class NachaFile {
     }
     
     func out() -> String {
-        guard let type1 = self.type1, let type9 = self.type9 else {
+        guard let type9 = self.type9 else {
             return ""
         }
         
@@ -76,7 +84,7 @@ class NachaFile {
     }
 }
 
-class NachaAll {
+class NachaAll: Codable {
     var files = [NachaFile]()
     
     func out() -> String {

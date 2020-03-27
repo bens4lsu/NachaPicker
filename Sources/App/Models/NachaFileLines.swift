@@ -37,6 +37,15 @@ class NachaRecord: FixedLengthField {
         }
         self.text = string
     }  // end init    
+    
+    required init(from decoder: Decoder) throws {
+        var container = try decoder.unkeyedContainer()
+        let string = try container.decode(String.self)
+        guard string.count == 94 else {
+            throw DecodingError.dataCorruptedError(in: container, debugDescription: "NACHA record must be 94 characters")
+        }
+        super.init(string, size: 94)
+    }
 }
 
 class NachaType1: NachaRecord {
@@ -50,6 +59,10 @@ class NachaType1: NachaRecord {
 
         try super.init(from: string, type: 1, validations: validations)
     }
+    
+    required init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+    }
 }
 
 class NachaType9: NachaRecord {
@@ -57,6 +70,10 @@ class NachaType9: NachaRecord {
     init(from string: String) throws {
         let validations = [FieldParseValidation]()
         try super.init(from: string, type: 9, validations: validations)
+    }
+    
+    required init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
     }
 }
 
@@ -66,6 +83,10 @@ class NachaType5: NachaRecord {
         let validations = [FieldParseValidation]()
         try super.init(from: string, type: 5, validations: validations)
     }
+    
+    required init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+    }
 }
 
 class NachaType8: NachaRecord {
@@ -74,6 +95,10 @@ class NachaType8: NachaRecord {
         let validations = [FieldParseValidation]()
         try super.init(from: string, type: 8, validations: validations)
     }
+    
+    required init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+    }
 }
 
 class NachaType6: NachaRecord {
@@ -81,6 +106,10 @@ class NachaType6: NachaRecord {
     init(from string: String) throws {
         let validations = [FieldParseValidation]()
         try super.init(from: string, type: 6, validations: validations)
+    }
+    
+    required init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
     }
 }
 
@@ -92,6 +121,10 @@ class NachaType7: NachaRecord {
         let validations = [FieldParseValidation]()
         try super.init(from: string, type: 7, validations: validations)
     }
+    
+    required init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+    }
 }
 
 class NachaFilePadding: NachaRecord {
@@ -99,5 +132,9 @@ class NachaFilePadding: NachaRecord {
     init() throws {
         let line = String(repeating: "9", count: 94)
         try super.init(from: line, type: 9, validations: [FieldParseValidation]())
+    }
+    
+    required init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
     }
 }
