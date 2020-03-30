@@ -15,7 +15,7 @@ struct FieldParseValidation {
     
     
     static let isNumeric: (String, String?) -> FillResult = { test, _ in
-        let regexPattern = #"\d*"#
+        let regexPattern = "\\d*"
         guard test.range(of: regexPattern, options: .regularExpression) != nil else {
             return .error(reason: "Value is not numeric")
         }
