@@ -35,6 +35,7 @@ class FixedLengthField: Codable {
         case .right:
             return paddingChars + text
         }
+        
     }
     
     init(_ val: String, size: Int) {
@@ -52,6 +53,7 @@ class FixedLengthField: Codable {
         self.padding = "0"
         self.justification = .right
         self.assumedDecimals = 0
+        
     }
     
     init(_ val: Double, size: Int) {
@@ -65,16 +67,24 @@ class FixedLengthField: Codable {
     
     
     
-    func fill(from: Int, to: Int, with: FixedLengthField) -> FillResult {
-        let size = to - from + 1
-        return fill(from: from, size: size, with: with)
+    func fill(from: Int, size: Int, with: FixedLengthField) -> FillResult {
+        let to = size + from - 1
+        return fill(from: from, to: to, with: with)
     }
     
-    func fill(from: Int, size: Int, with newData: FixedLengthField) -> FillResult {
+    func fill(from: Int, to: Int, with newData: FixedLengthField) -> FillResult {
+        let size = to - from + 1
         if newData.length != size {
             return .error(reason: "Fill reqeust from \(from) and size \(size) can not be filled by FixedLengthField of size \(newData.length)")
         }
-        self.text = newData.text
+       
+        let substring1 = self.text[0...from - 1]
+        
+        let substring2 = self.text[to + 1...length - 1]
+        
+        let newString = newData.out
+        
+        self.text = String(substring1) + newString + String(substring2)
         return .success
     }
     
@@ -89,7 +99,7 @@ class FixedLengthField: Codable {
         guard let string = str, let double = Double(string) else {
             return nil
         }
-        return double
+        return double / 100
     }
     
     func val(from startPosition: Int, to endPosition: Int) -> Int? {

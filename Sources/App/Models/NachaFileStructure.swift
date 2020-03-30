@@ -88,6 +88,7 @@ class NachaGroup: Codable {
             let _ = type8.fill(from: 10, to: 19, with: FixedLengthField(hash, size: 10))
             let _ = type8.fill(from: 20, to: 31, with: FixedLengthField(debitTotal, size: 12))
             let _ = type8.fill(from: 32, to: 43, with: FixedLengthField(creditTotal, size: 12))
+            
         }
     }
 }
@@ -110,10 +111,13 @@ class NachaFile: Codable {
     }
     
     func padding() -> [NachaFilePadding] {
-        let linesNeeded = 10 - (lineCount % 10)
+        let linesNeeded = lineCount % 10 == 0 ? 0 : 10 - (lineCount % 10)
+        
         var padding = [NachaFilePadding]()
-        for _ in 0...linesNeeded - 1 {
-            padding.append(try! NachaFilePadding())
+        if linesNeeded > 0 {
+            for _ in 1...linesNeeded {
+                padding.append(try! NachaFilePadding())
+            }
         }
         return padding
     }
@@ -155,6 +159,8 @@ class NachaFile: Codable {
         var hash = 0
         var debitAmount = 0.0
         var creditAmount = 0.0
+        
+        
         for group in groups {
             if let type8 = group.type8 {
                 aeCount += type8.aeCount ?? 0

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+<form method="post" action="updated">
+    <table>
+        <thead><tr>
+            <th>&nbsp;</th>
+            <th>UUID</th>
+            <th>ABA/routing</th>
+            <th>Account</th>
+            <th>Tansacation ID #</th>
+            <th>Amount</th>
+            <th>Name</th>
+        </tr></thead>
+        <tbody>
+            #for(line in lines){
+                <tr><td><input type="checkbox" name="row-#(line.uuid)"></td>
+                <td>#(line.aba)</td>
+                <td>#(line.accountNumber)</td>
+                <td>#(line.amount)</td>
+                <td>#(line.idNumber)</td>
+                <td>#(line.name)</td></tr>
+            }
+        </tbody>
+    </table>
+    
+    <input style="display:none" name="uuid" value="#(uuid)">
+    
+<button type="submit">Submit</button>
+</form>
+
+</body>
+</html>
