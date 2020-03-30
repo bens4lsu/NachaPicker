@@ -13,7 +13,7 @@ class NachaDetails: Codable {
     var type7s = [NachaType7]()
     
     var lineCount: Int {
-        1 + type7s.count
+        return 1 + type7s.count
     }
     
     init(_ type6: NachaType6) {
