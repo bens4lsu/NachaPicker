@@ -57,7 +57,7 @@ class FixedLengthField: Codable {
     }
     
     init(_ val: Double, size: Int) {
-        let string = String(String(Int(val * 100)).prefix(size))
+        let string = String(String(format: "%.0f", val * 100).prefix(size))
         self.length = size
         self.text = string
         self.padding = "0"
