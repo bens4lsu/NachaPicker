@@ -13,7 +13,7 @@ class SavedInput {
     var nacha: NachaAll
     
     var isOutdated: Bool {
-        date.addingTimeInterval(1800) < Date()
+        return date.addingTimeInterval(1800) < Date()
     }
     
     init(_ nacha: NachaAll) {
