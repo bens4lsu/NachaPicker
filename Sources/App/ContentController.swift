@@ -49,7 +49,6 @@ class ContentController: RouteCollection {
         let nacha = cache.filter({ $0.uuid == uuid }).map({ return $0.nacha })[0]
         for line in nacha.context() {
             let name = "row-" + line.uuid.description
-            print (name)
             let sentValue: String? = try? req.content.syncGet(at: name)
             if sentValue != nil {
                 nacha.removeDetail(withId: line.uuid)

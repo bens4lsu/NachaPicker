@@ -11,7 +11,7 @@ struct PickerLine: Encodable {
     var uuid: UUID
     var aba: String?
     var accountNumber: String?
-    var amount: Double?
+    var amount: String?
     var idNumber: String?
     var name: String?
     
@@ -19,7 +19,9 @@ struct PickerLine: Encodable {
         self.uuid = record.uuid
         self.aba = record.aba
         self.accountNumber = record.accountNumber
-        self.amount = record.amount
+        if let printAmt = record.amount {
+            self.amount = String(format: "%.2f", printAmt)
+        }
         self.idNumber = record.idNumber
         self.name = record.name
     }

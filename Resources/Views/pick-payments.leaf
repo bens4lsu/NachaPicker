@@ -9,11 +9,10 @@
     <table>
         <thead><tr>
             <th>&nbsp;</th>
-            <th>UUID</th>
             <th>ABA/routing</th>
             <th>Account</th>
-            <th>Tansacation ID #</th>
             <th>Amount</th>
+            <th>ID</th>
             <th>Name</th>
         </tr></thead>
         <tbody>
