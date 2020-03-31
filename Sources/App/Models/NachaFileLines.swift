@@ -68,8 +68,14 @@ class NachaType1: NachaRecord {
 class NachaType9: NachaRecord {
     
     init(from string: String) throws {
+        var tmpstr = string
+        let len = string.lengthOfBytes(using: .ascii)
+        if len < 94 {
+            let addSpaces = String(repeating: " ", count: 94 - len)
+            tmpstr = tmpstr + addSpaces
+        }
         let validations = [FieldParseValidation]()
-        try super.init(from: string, type: 9, validations: validations)
+        try super.init(from: tmpstr, type: 9, validations: validations)
     }
     
     required init(from decoder: Decoder) throws {
